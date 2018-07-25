@@ -63,8 +63,7 @@ class MapContainer extends Component {
               //   populateInfoWindow(this, largeInfoWindow)
               // })
             })
-              // map.fitBounds(bounds)
-              // this.setState()
+              map.fitBounds(bounds)
       }
 
 
