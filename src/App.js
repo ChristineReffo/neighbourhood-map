@@ -7,11 +7,11 @@ class App extends Component {
 
   state = {
     locations: [
-      {title: 'Mount Curry', location: {lat:50.316384, lng:-122.717350}},
+      {title: 'Mount Edziza', location: {lat:57.715556, lng:-130.634444}},
       {title: 'Denali', location: {lat:63.069169, lng:-151.006984}},
       {title: 'Mount Robson', location: {lat:52.147222, lng:-117.441389}},
       {title: 'Mount Garibaldi', location: {lat:49.850713, lng:-123.004646}},
-      {title: 'Mount Washington', location: {lat:44.270585, lng:-71.303272}}
+      {title: 'Mount Washington', location: {lat:49.753056, lng:-125.296389}}
     ]
 
   }
