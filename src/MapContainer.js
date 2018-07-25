@@ -26,8 +26,9 @@ class MapContainer extends Component {
             center: {lat:50.316384, lng:-122.717350}
           }
         )
-        this.setMarkers(map)
         this.createInfoWindow()
+        this.setMarkers(map)
+
       }
 
 
@@ -56,37 +57,46 @@ class MapContainer extends Component {
 
               /* Create an click event for each marker */
 
-              // marker.addListener('click', function() {
-              //   infoWindow.open(map, marker.title)
+              marker.addListener('click', this.openInfoWindow)
+              // marker.infowindow.addListener('closeclick', this.closeInfoWindow)
 
               console.log(this.state.markers)
-
-              })
+        })
 
               map.fitBounds(bounds)
-            }
+      }
 
 
 /* Info window set up */
+
+// Issue may be this?
+// https://stackoverflow.com/questions/44486532/react-function-is-not-defined-no-undef
 
     createInfoWindow = () => {
       let infowindow = new window.google.maps.InfoWindow()
     }
 
+    openInfoWindow = () => {
+      this.infowindow.open(this.map, this.marker.title)
+    }
 
-    } //
-      // populateInfoWindow = (map, marker, infoWindow) => {
-      //     if (infoWindow.marker != marker) {
-      //       infoWindow.marker = marker
-      //       infoWindow.setContent('<div>' + marker.title + '</div>')
-      //       infoWindow.open(map, marker)
-      //
-      //       /* Clear marker property if infoWindow is closed */
-      //       infoWindow.addListener('closeclick', function() {
-      //         infoWindow.setMarker(null)
-      //       })
-      //     }
-      // }
+    closeInfoWindow = () => {
+        this.infowindow.setMarker(null)
+      }
+
+
+    populateInfoWindow = ( marker, infowindow) => {
+        if (infowindow.marker !== marker) {
+          infowindow.marker = marker
+          infowindow.setContent('<div>' + marker.title + '</div>')
+          infowindow.open(this.map, marker)
+
+          /* Clear marker property if infoWindow is closed */
+          infowindow.addListener('closeclick', function() {
+            infowindow.setMarker(null)
+          })
+        }
+      }
 
 
 
