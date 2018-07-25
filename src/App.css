@@ -14,7 +14,7 @@
 
 .App-header {
   background-color: #222;
-  height: 80px;
+  height: 50px;
   padding: 20px;
   color: white;
 }
@@ -33,7 +33,7 @@
 
 } */
 
-.map {
+#map {
   margin: 0;
   width: calc(100% - 250px);
 
@@ -41,7 +41,7 @@
 
 
 
-  height: 83.5vh;
+  height: 82vh;
   position:relative;
   left:250px;
 

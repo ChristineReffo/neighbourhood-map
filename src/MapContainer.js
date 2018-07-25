@@ -1,101 +1,106 @@
 import React, { Component } from 'react'
-import { Map, InfoWindow, GoogleApiWrapper} from 'google-maps-react';
-import Marker from './Marker.js'
-// import Map from './Map.js'
+import scriptLoader from 'react-async-script-loader'
+import './App.css';
 
-export class MapContainer extends Component {
+class MapContainer extends Component {
 
     state = {
+      markersArray: [],
+      selectedMarker: [],
       showingInfoWindow: false,
-      activeMarker: {},
+
       selectedPlace: {}
     }
 
-    // binding this to event-handler functions
- // this.onMarkerClick = this.onMarkerClick.bind(this);
- // this.onMapClick = this.onMapClick.bind(this);
-
-
-  initMap() {
-    this.setMarkers()
-  }
 
 
 
+    componentWillReceiveProps({isScriptLoadSucceed}) {
+      if (isScriptLoadSucceed) {
+        this.initMap()
 
-   setMarkers = () => {
-     const { google, locations } = this.props
-     const bounds = new google.maps.LatLngBounds()
+      } else this.props.onError()
+    }
 
-     locations.forEach((location) => {
 
-       const marker = new google.maps.Marker({
-         position: {location},
-         map: this.props.map,
 
-       })
 
-     })
-   }
+        initMap= () => {
+          const map = new window.google.maps.Map(document.getElementById('map'),
+            {
+              zoom: 7,
+              center: {lat:50.316384, lng:-122.717350}
+            }
+          )
+          this.setMarkers(map)
+        }
 
-//
-// onMarkerClick = (props, marker, e) => {
-//  this.setState({
-//    selectedPlace: props,
-//    activeMarker: marker,
-//    showingInfoWindow: true
-//  });
-// }
-// onMapClick = (props) => {
-//  if (this.state.showingInfoWindow) {
-//    this.setState({
-//      showingInfoWindow: false,
-//      activeMarker: null
-//    });
-//  }
-// }
+
+      setMarkers = (map, markersArray) => {
+        const { locations } = this.props
+
+        // const largeInfoWindow = new window.google.maps.InfoWindow()
+        const bounds = new window.google.maps.LatLngBounds()
+
+        locations.map((location) => {
+          let marker = new window.google.maps.Marker({
+                title: location.title,
+                position: location.location,
+                map: map,
+                animation: window.google.maps.Animation.DROP
+
+              })
+              /* Create an array of all markers */
+
+              this.setState({ markersArray })
+
+              /* Extend the boundaries according to positions of all markers in array */
+              bounds.extend(location.location)
+
+              /* Create an click event for each marker */
+
+              // marker.addListener('click', function() {
+              //   populateInfoWindow(this, largeInfoWindow)
+              // })
+            })
+              // map.fitBounds(bounds)
+              // this.setState()
+      }
+
+
+      populateInfoWindow = (map, marker, infoWindow) => {
+          if (infoWindow.marker != marker) {
+            infoWindow.marker = marker
+            infoWindow.setContent('<div>' + marker.title + '</div>')
+            infoWindow.open(map, marker)
+
+            /* Clear marker property if infoWindow is closed */
+            infoWindow.addListener('closeclick', function() {
+              infoWindow.setMarker(null)
+            })
+          }
+      }
+
+      displayInfoWindow = () => {
+        const infoWindow = new window.google.maps.InfodWindow({
+          content: "see meeee"
+        })
+      }
+
+
 
   render() {
 
-    {Locations.map((location) => {
-               return (
-                 <Marker
-                   onClick={this.onMarkerClick}
-                   name={location.name}
-                   position={location.coordinates} />
-               )
-             })
-             }
-
     return (
-      <div className="map">
+      <div className="map-container">
+        <div id='map'>
+        </div>
+      </div>
 
-      <Map
-         google={this.props.google}
-         initialCenter={{
-           lat: 50.116320,
-           lng: -122.957356
-         }}
-         zoom={15}
-         onClick={this.onMapClick}
-       >
-         {this.props.Locations.map((location) => {
-        <Marker
-          locations={this.props.locations}
-        />
-
-        {/*<InfoWindow onClose={this.onInfoWindowClose}>
-            <div>
-              <h1>{this.state.selectedPlace.name}</h1>
-            </div>
-        </InfoWindow> */}
-      </Map>
-    </div>
-
-    );
+    )
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: 'AIzaSyA0GnEdVYOGtRqALRsCSa3I_FrXL7nSR5U'
-})(MapContainer)
+export default scriptLoader(
+    [`https://maps.googleapis.com/maps/api/js?key=AIzaSyA0GnEdVYOGtRqALRsCSa3I_FrXL7nSR5U`]
+)(MapContainer)
