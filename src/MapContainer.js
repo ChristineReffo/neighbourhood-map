@@ -26,7 +26,7 @@ class MapContainer extends Component {
             center: {lat:50.316384, lng:-122.717350}
           }
         )
-        this.createInfoWindow()
+
         this.setMarkers(map)
 
       }
@@ -36,71 +36,87 @@ class MapContainer extends Component {
       setMarkers = (map) => {
         const { locations } = this.props
         const bounds = new window.google.maps.LatLngBounds()
-
-
+        const infoWindow = new window.google.maps.InfoWindow({
+          content:''
+        })
 
         locations.map((location) => {
 
           let marker = new window.google.maps.Marker({
                 title: location.title,
                 position: location.location,
-                map: map,
+                infoWindow,
+                map,
                 animation: window.google.maps.Animation.DROP,
-                id: location.title
+                id: location.title,
+                clickable: true
           })
-
-
+            /* Add each marker to markers array in state */
             this.state.markers.push(marker)
+            console.log(this.state.markers)
 
-            /* Extend the boundaries according to positions of all markers in array */
+            /* Extend the boundaries according to positions of all markers in locations array */
             bounds.extend(location.location)
 
-              /* Create an click event for each marker */
+            /* Create an click event for each marker */
 
-              marker.addListener('click', this.openInfoWindow)
-              // marker.infowindow.addListener('closeclick', this.closeInfoWindow)
+            marker.addListener('click', (event) => {
+              marker.setAnimation(window.google.maps.Animation.BOUNCE)
+              setTimeout(() => {
+                marker.setAnimation(null)}, 800)
 
-              console.log(this.state.markers)
-        })
+              this.openInfoWindow(map, marker)
+              })
 
-              map.fitBounds(bounds)
+            return this.state.markers
+
+          })
+
+            map.fitBounds(bounds)
       }
 
 
 /* Info window set up */
 
-// Issue may be this?
-// https://stackoverflow.com/questions/44486532/react-function-is-not-defined-no-undef
 
-    createInfoWindow = () => {
-      let infowindow = new window.google.maps.InfoWindow()
-    }
+// https://stackoverflow.com/questions/42518612/uncaught-typeerror-cannot-read-property-apply-of-undefined-google-maps
 
-    openInfoWindow = () => {
-      this.infowindow.open(this.map, this.marker.title)
-    }
-
-    closeInfoWindow = () => {
-        this.infowindow.setMarker(null)
-      }
-
-
-    populateInfoWindow = ( marker, infowindow) => {
-        if (infowindow.marker !== marker) {
-          infowindow.marker = marker
-          infowindow.setContent('<div>' + marker.title + '</div>')
-          infowindow.open(this.map, marker)
-
-          /* Clear marker property if infoWindow is closed */
-          infowindow.addListener('closeclick', function() {
-            infowindow.setMarker(null)
-          })
-        }
-      }
+openInfoWindow = (map, marker) => {
+  marker.infoWindow.open(map, marker)
+  marker.infoWindow.setContent('<div>' + marker.title + '</div>')
+}
+    // openInfoWindow = (map, marker) => {
+    //     if(marker.infoWindow === true) {
+    //       marker.infoWindow.close();
+    //
+    //     } else {
+    //       marker.infoWindow.open = (map, marker) => {
+    //       marker.infoWindow.setContent('<div>' + marker.title + '</div>')
+    //     }
+    //   }
+    //     console.log(marker.infoWindow.content)
+    // }
 
 
 
 
+    // populateInfoWindow = ( marker, infowindow) => {
+    //     if (infowindow.marker !== marker) {
+    //       infowindow.marker = marker
+    //       infowindow.setContent('<div>' + marker.title + '</div>')
+    //       infowindow.open(this.map, marker)
+    //
+    //       /* Clear marker property if infoWindow is closed */
+    //       infowindow.addListener('closeclick', function() {
+    //         infowindow.setMarker(null)
+    //       })
+    //     }
+    //   }
+    //
+
+
+    // To add the marker to the map, call setMap();
+    // marker.setMap(map);
 
   render() {
 
