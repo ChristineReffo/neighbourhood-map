@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import burgerButton from './menu-button.png'
+
 
 
 
@@ -23,11 +23,11 @@ class MenuHamburger extends Component {
                   ))}
               </ul>
             </div>
-            <div className="close-button" src={burgerButton} alt="close menu button">
+
               <button> Close menu </button>
             </div>
         </div>
-        </div>
+
 
 
 

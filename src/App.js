@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import MenuHamburger from './MenuHamburger.js'
+import SideNav from './SideNav.js'
 import MapContainer from './MapContainer.js'
 
 class App extends Component {
@@ -24,7 +24,7 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Neighbourhood map in React</h1>
         </header>
-        <MenuHamburger
+        <SideNav
             locations={this.state.locations}/>
         <MapContainer
             locations={this.state.locations}/>
