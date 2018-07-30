@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import MenuHamburger from './MenuHamburger.js'
+import SideNav from './sideNav.js'
 import MapContainer from './MapContainer.js'
 
 class App extends Component {
@@ -12,11 +12,15 @@ class App extends Component {
       {title: 'Mount Robson', location: {lat:52.147222, lng:-117.441389}},
       {title: 'Mount Garibaldi', location: {lat:49.850713, lng:-123.004646}},
       {title: 'Mount Washington', location: {lat:49.753056, lng:-125.296389}}
-    ]
+    ],
+    markers: []
 
   }
-
-
+    updateMarkerArray = (marker) => {
+      this.state.markers.push(marker)
+      console.log("markers",this.state.markers)
+      console.log("Location", this.state.locations)
+    }
 
   render() {
     return (
@@ -24,10 +28,15 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Neighbourhood map in React</h1>
         </header>
-        <MenuHamburger
-            locations={this.state.locations}/>
+        <SideNav
+            locations={this.state.locations}
+            markers={this.state.markers}
+          />
+
         <MapContainer
-            locations={this.state.locations}/>
+            locations={this.state.locations}
+            markers={this.state.markers}
+            updateMarkerArray={this.updateMarkerArray}/>
     </div>
     )
   }

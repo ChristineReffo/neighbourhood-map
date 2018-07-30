@@ -7,16 +7,16 @@
     width:100%;
 }
 
-.App-logo {
+/* .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
-}
+} */
 
 .App-header {
-  background-color: #222;
+  background-color: #1d2120;
   height: 50px;
   padding: 20px;
-  color: white;
+  color: #bcd5d1;
 }
 
 .App-title {
@@ -51,6 +51,9 @@
 
 /* Hamburger Menu Styling */
 
+
+
+
 .menu-overlay {
   position:fixed;
   z-index:200;
@@ -65,26 +68,34 @@
 /* set transform first 0px to 300px */
 
 }
-.menu-wrapper {
-  width: 250px;
-  height:100%;
-  position:fixed;
-  display: block;
-  left:0;
-  transform: translate3d(0px, 0px, 0px);
-  transition: all 0.5s;
-  /* visibility: visible; */
+
+input.search-field {
+  width: 170px;
+  height: 50px;
+  text-align: center;
+  border: none;
+  margin-right: 20px;
 
 }
 
-.menu {
+
+nav.close {
   height: 100%;
+  width: 250px;
   box-sizing: border-box;
   overflow: auto;
+  position: absolute;
+  transform: translate(-300px, 0);
+  transition: transform 0.3s ease;
+}
+
+.nav {
+  transform: translate(0, 0);
 }
 
 .menu-item-list {
   height:100%;
+  border: none;
 }
 
 
@@ -93,13 +104,13 @@ ul {
     position:fixed;
     display: block;
     left:0;
-    background-color: #cccccc;
+    background-color: #5a5c51;
     /* z-index: 100; */
     width: 250px;
     height:100%;
     margin: 0;
     padding: 0;
-    border: 1px solid #555;
+    border: 1px solid #1d2120;
     overflow: auto;
 }
 
@@ -107,42 +118,25 @@ ul {
 
 li a {
     display: block;
-    color: #000;
-    padding: 16px 0px;
+    color: #5a5c51;
+    padding: 22px 0px;
+    color: #bcd5d1;
     text-decoration: none;
     text-align: center;
-    border-bottom: 1px solid #555;
-    font-size: 1.5vw;
+    border-bottom: 1px solid #1d2120;
+    font-size: 1.2vw;
+    font-weight: bold;
 
 }
 
 li a:hover {
-    background-color: #555;
+    background-color: #bcd5d1;
     color: white;
-    font-size: 20px;
+    font-size: 1.3vw;
 }
 
-/* .burger-button {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  font-size: 5px;
-  height: 50%;
-  width: 50%;
-  cursor: pointer;
-}
 
-.close-button {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  right: 50px;
-  top: 8px;
-} */
+/* Media queries for responsiveness */
 
-/* {
-  tranform: translate3d(-300px, 0px, 0px);
-  transition: all 0.1s;
-  position: relative;
-  z-index: 150;
-} */
+
+@media screen and (min-width: 600px)

@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import scriptLoader from 'react-async-script-loader'
 import './App.css';
+import Pin from './pin-blue-hi.png'
 
 class MapContainer extends Component {
-
-    state = {
-      markers: [],
-
-    }
 
 
       componentWillReceiveProps({isScriptLoadSucceed}) {
@@ -31,44 +27,78 @@ class MapContainer extends Component {
 
       }
 
+      makeMarkerIcon = (markerColour) => {
+        let markerImage = new window.google.maps.MarkerImage(
+          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColour + '|40|_|%E2%80%A2',
+          new window.google.maps.Size(21, 34),
+          new window.google.maps.Point(0, 0),
+          new window.google.maps.Point(10, 34),
+          new window.google.maps.Size(21, 34)
+        )
+        return markerImage
+      }
 
 
       setMarkers = (map) => {
-        const { locations } = this.props
+        const { locations, markers, updateMarkerArray } = this.props
         const bounds = new window.google.maps.LatLngBounds()
         const infoWindow = new window.google.maps.InfoWindow({
           content:''
         })
+        let defaultIcon = this.makeMarkerIcon('0091ff')
+        let highlightedIcon = this.makeMarkerIcon('FFFF24')
 
         locations.map((location) => {
 
           let marker = new window.google.maps.Marker({
                 title: location.title,
                 position: location.location,
+                lat: location.location.lat,
+                lng: location.location.lng,
                 infoWindow,
                 map,
                 animation: window.google.maps.Animation.DROP,
-                id: location.title,
+                icon: defaultIcon,
                 clickable: true
           })
             /* Add each marker to markers array in state */
-            this.state.markers.push(marker)
-            console.log(this.state.markers)
+            updateMarkerArray(marker)
+            console.log("MapContainer Markers", markers)
 
             /* Extend the boundaries according to positions of all markers in locations array */
             bounds.extend(location.location)
 
             /* Create an click event for each marker */
 
-            marker.addListener('click', (event) => {
+            marker.addListener('click', (event, highlighedIcon) => {
               marker.setAnimation(window.google.maps.Animation.BOUNCE)
+
+
+              /* Stop bounce animation after 800 ms*/
               setTimeout(() => {
                 marker.setAnimation(null)}, 800)
 
+              /* Set highlight to marker when clicked */
+                if(marker.icon === defaultIcon) {
+                  marker.setIcon(defaultIcon)
+                } else {
+                  marker.setIcon(highlighedIcon)
+                }
+
+              /* Set information window */
               this.openInfoWindow(map, marker)
               })
+            //
+            // marker.addListener('mouseover', (event) => {
+            // marker.setIcon(highlightedIcon)
+            // })
+            // marker.addListener('mouseout', (event) => {
+            //   marker.setIcon(defaultIcon)
+            // })
 
-            return this.state.markers
+
+
+            return
 
           })
 
@@ -85,34 +115,10 @@ openInfoWindow = (map, marker) => {
   marker.infoWindow.open(map, marker)
   marker.infoWindow.setContent('<div>' + marker.title + '</div>')
 }
-    // openInfoWindow = (map, marker) => {
-    //     if(marker.infoWindow === true) {
-    //       marker.infoWindow.close();
-    //
-    //     } else {
-    //       marker.infoWindow.open = (map, marker) => {
-    //       marker.infoWindow.setContent('<div>' + marker.title + '</div>')
-    //     }
-    //   }
-    //     console.log(marker.infoWindow.content)
-    // }
 
 
 
 
-    // populateInfoWindow = ( marker, infowindow) => {
-    //     if (infowindow.marker !== marker) {
-    //       infowindow.marker = marker
-    //       infowindow.setContent('<div>' + marker.title + '</div>')
-    //       infowindow.open(this.map, marker)
-    //
-    //       /* Clear marker property if infoWindow is closed */
-    //       infowindow.addListener('closeclick', function() {
-    //         infowindow.setMarker(null)
-    //       })
-    //     }
-    //   }
-    //
 
 
     // To add the marker to the map, call setMap();
