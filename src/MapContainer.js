@@ -4,17 +4,14 @@ import './App.css';
 
 class MapContainer extends Component {
 
-    state = {
-      markers: [],
-
-    }
-
 
       componentWillReceiveProps({isScriptLoadSucceed}) {
         if (isScriptLoadSucceed) {
           this.initMap()
 
-        } else this.props.onError()
+        } else {
+          // this.props.onError()
+        }
       }
 
 
@@ -34,29 +31,30 @@ class MapContainer extends Component {
 
 
       setMarkers = (map) => {
-        const { locations } = this.props
+        let markersList = []
         const bounds = new window.google.maps.LatLngBounds()
         const infoWindow = new window.google.maps.InfoWindow({
           content:''
         })
 
-        locations.map((location) => {
+        this.props.resetMarkers()
+        this.props.filteredLocations.map((filteredLocation) => {
 
           let marker = new window.google.maps.Marker({
-                title: location.title,
-                position: location.location,
+                title: filteredLocation.title,
+                position: filteredLocation.location,
                 infoWindow,
                 map,
                 animation: window.google.maps.Animation.DROP,
-                id: location.title,
                 clickable: true
           })
-            /* Add each marker to markers array in state */
-            this.state.markers.push(marker)
-            console.log(this.state.markers)
+            /* Add each marker to markers array in app.js state */
+            this.props.markers.concat(marker)
+            this.props.initMarkers()
+            console.log("Markers",this.props.markers)
 
             /* Extend the boundaries according to positions of all markers in locations array */
-            bounds.extend(location.location)
+            bounds.extend(filteredLocation.location)
 
             /* Create an click event for each marker */
 
@@ -68,7 +66,7 @@ class MapContainer extends Component {
               this.openInfoWindow(map, marker)
               })
 
-            return this.state.markers
+            return this.props.markers
 
           })
 
@@ -85,35 +83,6 @@ openInfoWindow = (map, marker) => {
   marker.infoWindow.open(map, marker)
   marker.infoWindow.setContent('<div>' + marker.title + '</div>')
 }
-    // openInfoWindow = (map, marker) => {
-    //     if(marker.infoWindow === true) {
-    //       marker.infoWindow.close();
-    //
-    //     } else {
-    //       marker.infoWindow.open = (map, marker) => {
-    //       marker.infoWindow.setContent('<div>' + marker.title + '</div>')
-    //     }
-    //   }
-    //     console.log(marker.infoWindow.content)
-    // }
-
-
-
-
-    // populateInfoWindow = ( marker, infowindow) => {
-    //     if (infowindow.marker !== marker) {
-    //       infowindow.marker = marker
-    //       infowindow.setContent('<div>' + marker.title + '</div>')
-    //       infowindow.open(this.map, marker)
-    //
-    //       /* Clear marker property if infoWindow is closed */
-    //       infowindow.addListener('closeclick', function() {
-    //         infowindow.setMarker(null)
-    //       })
-    //     }
-    //   }
-    //
-
 
     // To add the marker to the map, call setMap();
     // marker.setMap(map);

@@ -1,40 +1,48 @@
 import React, { Component } from 'react';
+import {Navbar, Nav, NavItem, FormGroup, FormControl, Button} from 'react-bootstrap';
 import './App.css';
 
+class SideNav extends Component {
 
 
-
-class MenuHamburger extends Component {
+ //  updateQuery = (e) => {
+ //    this.setState({ query: query })
+ //    this.state.locations.filter((location) => location.title.includes(this.state.query))
+ // }
 
   render () {
 
-    const { locations } = this.props
+    const { locations, query, filterLocations, filteredLocations } = this.props
     return (
-      <div className="menu">
-        {/* <div className="menu-overlay">
-        </div> */}
-        <div id="visible" className="menu-wrapper">
-            <div className="menu">
-              <ul className="menu-item-list">
-                  {locations.map((location) => (
-                    <li key={location.title}>
-                      <a className="menu-item">{location.title}</a>
-                    </li>
-                  ))}
-              </ul>
-            </div>
+      <div className="side-menu">
+        <Navbar fluid inverse>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="#">My maps</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Navbar.Form>
+             <FormGroup>
+               <FormControl type="text"
+                 placeholder="Search"
+                 value={query}
+                 onChange={(event) => filterLocations(event.target.value)} />
 
-              <button> Close menu </button>
-            </div>
-        </div>
+             </FormGroup>{' '}
 
-
-
-
-
-
+           </Navbar.Form>
+            <Nav>
+              {filteredLocations.map((filteredLocation) => (
+                <NavItem key={filteredLocation.title} href="#">{filteredLocation.title}</NavItem>
+              ))}
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
     )
   }
 }
 
-export default MenuHamburger
+export default SideNav
