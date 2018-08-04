@@ -10,9 +10,11 @@ class SideNav extends Component {
  //    this.state.locations.filter((location) => location.title.includes(this.state.query))
  // }
 
+
+
   render () {
 
-    const { locations, query, filterLocations, filteredLocations } = this.props
+    const { filteredLocations, query, filterLocations } = this.props
     return (
       <div className="side-menu">
         <Navbar fluid inverse>
@@ -28,14 +30,13 @@ class SideNav extends Component {
                <FormControl type="text"
                  placeholder="Search"
                  value={query}
-                 onChange={(event) => filterLocations(event.target.value)} />
-
+                 onChange={(event) => filterLocations(event.target.value)}
+                />
              </FormGroup>{' '}
-
            </Navbar.Form>
             <Nav>
-              {filteredLocations.map((filteredLocation) => (
-                <NavItem key={filteredLocation.title} href="#">{filteredLocation.title}</NavItem>
+              {filteredLocations.map((location) => (
+                <NavItem key={location.title} href="#" onClick={(event) => this.props.clickHandler()}>{location.title}</NavItem>
               ))}
             </Nav>
           </Navbar.Collapse>

@@ -1,0 +1,44 @@
+{
+   "locations": [
+     {
+       "title": "Mount Edziza",
+       "coordinates": {
+         "lat": "47.715556",
+         "lng": "-130.634444"
+       },
+       "elevation": "2'793m"
+     },
+     {
+       "title": "Denali",
+       "coordinates": {
+         "lat": "63.069169",
+         "lng": "-151.006984"
+       },
+       "elevation": "6'190m"
+     },
+     {
+       "title": "Mount Robson",
+       "coordinates": {
+         "lat": "52.147222",
+         "lng": "-117.441389"
+       },
+       "elevation": "3'954m"
+     },
+     {
+       "title": "Mount Garibaldi",
+       "coordinates": {
+         "lat": "49.850713",
+         "lng": "-123.004646"
+       },
+       "elevation": "2'678m"
+     },
+     {
+       "title": "Mount Washington",
+       "coordinates": {
+         "lat": "49.753056",
+         "lng": "-125.296389"
+       },
+       "elevation": "1'590m"
+     }
+   ]
+ }

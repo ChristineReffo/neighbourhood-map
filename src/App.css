@@ -37,7 +37,7 @@
   margin: 0;
   width: 100%;
   /*TODO how to make height dynamic  */
-  height: 82vh;
+  height: 100vh;
   position:relative;
 
 }
@@ -69,6 +69,7 @@
 nav.navbar {
     border-radius: 0px;
 }
+
 
 .map-container {
   margin-left: 250px;

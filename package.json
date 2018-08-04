@@ -5,6 +5,7 @@
   "dependencies": {
     "google-map-react": "^1.0.5",
     "google-maps-react": "^2.0.2",
+    "lodash.debounce": "^4.0.8",
     "react": "^16.4.1",
     "react-async-script-loader": "^0.3.0",
     "react-bootstrap": "^0.32.1",
