@@ -45,17 +45,22 @@ class MapContainer extends Component {
 
   setMarkers = map => {
     let markersList = [];
+    let url = 'http://foursquare.com/v/'
     const bounds = new window.google.maps.LatLngBounds();
     const infoWindow = new window.google.maps.InfoWindow({ content: "" });
 
     /* Empty array of markers before setting new ones to avoid multiplication */
     this.resetMarkers();
 
-    this.props.filteredLocations.map(location => {
+    this.props.locations.map(location => {
       let marker = new window.google.maps.Marker({
-        title: location.title,
-        position: location.location,
-        photo: location.photo,
+        title: location.name,
+        position: {lat: location.location.lat, lng:location.location.lng},
+        addressName: location.location.formattedAddress["0"],
+        addressCity: location.location.formattedAddress["1"],
+        addressCountry: location.location.formattedAddress["2"],
+        venuId: location.id,
+        foursquareUrl: url + location.id,
         infoWindow,
         map,
         animation: window.google.maps.Animation.DROP,
@@ -92,12 +97,14 @@ class MapContainer extends Component {
   openInfoWindow = (map, marker) => {
     marker.infoWindow.open(map, marker);
     marker.infoWindow.setContent('<div id="InfoWindowContent">'+
-      '<h3 id="firstHeading" class="firstHeading">' + marker.title + '</h3>'+
+      '<h4 id="firstHeading" class="firstHeading">' + marker.title + '</h4>'+
       '<div id="bodyContent">'+
-      '<p><b>'+ marker.photo +'</b></p>'+
-      '<p>Attribution: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-      'https://en.wikipedia.org/w/index.php?title=Uluru</a></p>'+
+      '<p><b>'+ marker.addressName +'</b></p>' +
+      '<p><b>'+ marker.addressCity +'</b></p>' +
+      '<p><b>'+ marker.addressCountry +'</b></p>'+
+      '<p>Attribution: Foursquare <a href= "' + marker.foursquareUrl + '">'+ 'For more details, click here</a></p>'+
       '</div>'+
+      '</div>' +
       '</div>'
 )}
   // To add the marker to the map, call setMap();

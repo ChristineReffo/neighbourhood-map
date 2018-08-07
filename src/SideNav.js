@@ -14,7 +14,7 @@ class SideNav extends Component {
 
   render () {
 
-    const { filteredLocations, query, filterLocations } = this.props
+    const { filteredLocations, query, locations } = this.props
     return (
       <div className="side-menu">
         <Navbar fluid inverse>
@@ -30,13 +30,13 @@ class SideNav extends Component {
                <FormControl type="text"
                  placeholder="Search"
                  value={query}
-                 onChange={(event) => filterLocations(event.target.value)}
+                 onChange={(event) => locations(event.target.value)}
                 />
              </FormGroup>{' '}
            </Navbar.Form>
             <Nav>
-              {filteredLocations.map((location) => (
-                <NavItem key={location.title} href="#" onClick={(event) => this.props.clickHandler()}>{location.title}</NavItem>
+              {locations.map((location) => (
+                <NavItem key={location.id} href="#" onClick={(event) => this.props.clickHandler()}>{location.name}</NavItem>
               ))}
             </Nav>
           </Navbar.Collapse>
