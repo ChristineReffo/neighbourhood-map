@@ -7,31 +7,26 @@ import MapContainer from "./MapContainer.js";
 class App extends Component {
   state = {
     locations: [
-      {
-        title: "Mount Edziza",
-        id: "01",
-        location: { lat: 57.715556, lng: -130.634444 }
-      },
-      {
-        title: "Denali",
-        id: "02",
-        location: { lat: 63.069169, lng: -151.006984 }
-      },
-      {
-        title: "Mount Robson",
-        id: "03",
-        location: { lat: 52.147222, lng: -117.441389 }
-      },
-      {
-        title: "Mount Garibaldi",
-        id: "04",
-        location: { lat: 49.850713, lng: -123.004646 }
-      },
-      {
-        title: "Mount Washington",
-        id: "05",
-        location: { lat: 49.753056, lng: -125.296389 }
-      }
+      // {
+      //   title: "Mount Edziza",
+      //   location: { lat: 57.715556, lng: -130.634444 }
+      // },
+      // {
+      //   title: "Denali",
+      //   location: { lat: 63.069169, lng: -151.006984 }
+      // },
+      // {
+      //   title: "Mount Robson",
+      //   location: { lat: 52.147222, lng: -117.441389 }
+      // },
+      // {
+      //   title: "Mount Garibaldi",
+      //   location: { lat: 49.850713, lng: -123.004646 }
+      // },
+      // {
+      //   title: "Mount Washington",
+      //   location: { lat: 49.753056, lng: -125.296389 }
+      // }
     ],
     filteredLocations: [],
     // markers: [],
@@ -39,11 +34,13 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    this.initLocations();
+    this.initLocations()
+    this.fetchFlickr()
   };
 
   /* Reset filteredLocations to full list of locations */
   initLocations = () => {
+
     this.setState(
       { filteredLocations: this.state.locations, query: "" },
       this.showLocationsArray
@@ -93,7 +90,95 @@ class App extends Component {
     } else {
       this.initLocations();
     }
-  };
+  }
+
+// Foursquare
+//   Client ID
+//   E02QQMUOSQGK2HHMDNVZG3FRPHLFHRBS1TUZMO4GLNYHMSXX
+//   Client Secret
+//   AZFTDUKYBJLKXZEJSL4IOMQES1OBNAC0LYVN1EGQ44W1EGFJ
+//
+
+  getLocationsAll = () => {
+        fetch(`https://api.foursquare.com/v2//venues/search?venues/search?ll=50.31,-122.71&limit=5&intent=browse&radius=100000&query=restaurant&client_id=E02QQMUOSQGK2HHMDNVZG3FRPHLFHRBS1TUZMO4GLNYHMSXX&client_secret=AZFTDUKYBJLKXZEJSL4IOMQES1OBNAC0LYVN1EGQ44W1EGFJ&v=20180806`)
+           .then((res) => res.json()) //transform data into json
+           .then(function(data) {
+             this.setState({ locations: data })
+             console.log("API fetch locations data", this.state.locations)
+           }.catch(function(error) {
+             console.log(error);
+  })
+
+
+  getPhoto = () => {
+    let VENUE-ID = ...
+      fetch(`https://api.foursquare.com/v2/venues/${VENUE_ID}/photos?group=venue&limit=1`)
+          .then(handleErrors)
+          .then(res => res.json())
+          .then(data => data.response.venues)
+    }
+
+getPhoto = () => {
+let VENUE-ID = ...
+
+  }
+
+     function handleErrors(response) {
+         if (!response.ok) {
+             throw Error(response.statusText);
+         }
+         return response;
+
+
+// Flickr
+// Secret:
+// 47755390dd078906
+// const FLICK_KEY ='125a30b66d043be831b2eb27fd8384f7'
+//
+  /* Get photos from Flickr */
+  fetchFlickr = () => {
+    //
+    // let pics = []
+    // let photosUrlData = []
+
+      this.state.locations.map(location => {
+
+          let getPhotos = (location) => {
+
+          fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=125a30b66d043be831b2eb27fd8384f7&tags=${location.title}&per_page=1&page=1&format=json&nojsoncallback=1`)
+             .then
+                (response => response.json())
+             .then(data => console.log("data fetch", data))
+             .catch(e => console.log("Boo"))
+               // let photosArray = data.photos.photo.map(pic => {
+               //
+               //   let src = 'http://farm' + pic.farm + '.staticflickr.com/' + pic.server + '/' + pic.id + '_' + pic.secret + '.jpg';
+               //   return src
+               }
+             })
+      //          pics.push(...photosArray)
+      //        })
+      //        // .catch(error => {
+      //        //   alert("Whoops")
+      //          // Updating state and specify error
+      //          // let issue = this.state.isLoaded;
+      //          // issue['flickr'] = false;
+      //          //
+      //          // this.setState({ issue })
+      //        // })
+      //       // Pushing all pictures results of all locations to an Array
+      //
+      //       photosUrlData.push(pics)
+      //    }
+      //      location['photo'] = photosUrlData[0]
+      //   }
+      // )
+      //   this.setState({ locations: this.state.locations })
+      //   console.log("location photo", this.state.locations)
+  }
+
+
+
 
   render() {
     return (

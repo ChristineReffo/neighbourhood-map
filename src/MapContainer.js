@@ -1,11 +1,20 @@
 import React, { Component } from "react";
 import scriptLoader from "react-async-script-loader";
 import "./App.css";
+import InfoWindow from './InfoWindow.js'
 
 class MapContainer extends Component {
   state = {
-    markers: []
-  };
+    markers: [],
+    data: []
+  }
+
+  // error handling
+ //  window.gm_authFailure = this.gm_authFailure;
+ // gm_authFailure() {
+ //   window.alert(bla bla bla.' )
+ // }
+ // or componendDidCatch event
 
   componentWillReceiveProps({ isScriptLoadSucceed }) {
     if (isScriptLoadSucceed) {
@@ -46,6 +55,7 @@ class MapContainer extends Component {
       let marker = new window.google.maps.Marker({
         title: location.title,
         position: location.location,
+        photo: location.photo,
         infoWindow,
         map,
         animation: window.google.maps.Animation.DROP,
@@ -81,9 +91,15 @@ class MapContainer extends Component {
 
   openInfoWindow = (map, marker) => {
     marker.infoWindow.open(map, marker);
-    marker.infoWindow.setContent("<div>" + marker.title + "</div>");
-  };
-
+    marker.infoWindow.setContent('<div id="InfoWindowContent">'+
+      '<h3 id="firstHeading" class="firstHeading">' + marker.title + '</h3>'+
+      '<div id="bodyContent">'+
+      '<p><b>'+ marker.photo +'</b></p>'+
+      '<p>Attribution: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+      'https://en.wikipedia.org/w/index.php?title=Uluru</a></p>'+
+      '</div>'+
+      '</div>'
+)}
   // To add the marker to the map, call setMap();
   // marker.setMap(map);
 
@@ -91,6 +107,8 @@ class MapContainer extends Component {
     return (
       <div className="map-container">
         <div id="map" />
+        <div className="marker" role="navigation">{this.props.title}
+          </div>
       </div>
     );
   }
