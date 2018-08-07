@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
-import {Navbar, Nav, NavItem, FormGroup, FormControl, Button} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, FormGroup, FormControl} from 'react-bootstrap';
 import './App.css';
 
 class SideNav extends Component {
 
-
- //  updateQuery = (e) => {
- //    this.setState({ query: query })
- //    this.state.locations.filter((location) => location.title.includes(this.state.query))
- // }
-
-
-
   render () {
 
-    const { filteredLocations, query, locations } = this.props
+    const { filteredLocations, query, filterLocations } = this.props
     return (
       <div className="side-menu">
         <Navbar fluid inverse>
@@ -30,12 +22,12 @@ class SideNav extends Component {
                <FormControl type="text"
                  placeholder="Search"
                  value={query}
-                 onChange={(event) => locations(event.target.value)}
+                 onChange={(event) => filterLocations(event.target.value)}
                 />
              </FormGroup>{' '}
            </Navbar.Form>
             <Nav>
-              {locations.map((location) => (
+              {filteredLocations.map((location) => (
                 <NavItem key={location.id} href="#" onClick={(event) => this.props.clickHandler()}>{location.name}</NavItem>
               ))}
             </Nav>

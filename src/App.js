@@ -10,6 +10,7 @@ class App extends Component {
     locations: [],
     filteredLocations: [],
     markers: [],
+    filteredMarkers: [],
     query: ""
   }
 
@@ -47,9 +48,10 @@ class App extends Component {
         this.setState(currentState => {
           return {
             filteredLocations: currentState.locations.filter(location =>
-              location.title.toLowerCase().includes(qryStr)
+              location.name.toLowerCase().includes(qryStr)
             )
-          };
+
+          }
         }, this.showLocationsArray)
       } else {
         this.initLocations()
@@ -68,36 +70,27 @@ class App extends Component {
       console.log("filtered Locations", this.state.filteredLocations);
     }
 
-    clickHandler = event => {
-      this.setState(currentState => {
-        return {
-          markers: currentState.markers.filter(
-            marker => marker.title === event.target
-          )
-        }
-      })
-    }
 
-  //
-  //
+/*----------------Markers---------------*/
+
+      resetMarkers = () => {
+        this.setState({ markers: [] })
+      }
+
+      initMarkers = (marker) => {
+        this.setState((currentState) => {
+          markers: currentState.markers.concat(marker)
+        })
+        console.log("initMarkers", this.state.markers)
+      }
+
+
   // getPhoto = () => {
   //   let VENUE-ID = ...
   //     fetch(`https://api.foursquare.com/v2/venues/${VENUE_ID}/photos?group=venue&limit=1`)
-  //         .then(handleErrors)
   //         .then(res => res.json())
   //         .then(data => data.response.venues)
   //   }
-
-
-
-// Flickr
-// Secret:
-// 47755390dd078906
-// const FLICK_KEY ='125a30b66d043be831b2eb27fd8384f7'
-//
-
-
-
 
 
   render() {
@@ -106,7 +99,6 @@ class App extends Component {
         <SideNav
           markers={this.state.markers}
           initMarkers={this.initMarkers}
-          clearMarkers={this.clearMarkers}
           clickHandler={this.clickHandler}
           locations={this.state.locations}
           filterLocations={this.filterLocations}
@@ -115,12 +107,13 @@ class App extends Component {
           resetQuery={this.resetQuery}
         />
         <MapContainer
+          locations={this.state.locations}
           filteredLocations={this.state.filteredLocations}
           markers={this.state.markers}
-          locations={this.state.locations}
           initMarkers={this.initMarkers}
-          clearMarkers={this.clearMarkers}
           resetMarkers={this.resetMarkers}
+          query={this.state.query}
+
         />
       </div>
     );
