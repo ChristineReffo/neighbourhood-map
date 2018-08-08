@@ -28,7 +28,7 @@ class SideNav extends Component {
            </Navbar.Form>
             <Nav>
               {filteredLocations.map((location) => (
-                <NavItem key={location.id} href="#" onClick={(event) => this.props.clickHandler()}>{location.name}</NavItem>
+                <NavItem key={location.id} href="#" onClick={(event) => this.props.clickHandler(event)}>{location.name}</NavItem>
               ))}
             </Nav>
           </Navbar.Collapse>

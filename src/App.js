@@ -54,6 +54,17 @@ class App extends Component {
       }
     }
 
+    updateFilteredLocations = (query) => {
+      let qryStr = this.state.query.trim().toLowerCase();
+      this.setState(currentState => {
+        return {
+          filteredLocations: currentState.locations.filter(location =>
+            location.name.toLowerCase().includes(qryStr)
+          )
+        }
+      })
+    }
+
   /* Reset filteredLocations to full list of locations and set query to null*/
     initLocations = () => {
       this.setState(
@@ -67,40 +78,21 @@ class App extends Component {
     }
 
 
-/*----------------Markers---------------*/
-
-      // resetMarkers = () => {
-      //   this.setState({ markers: [] })
-      // }
-
-      // initMarkers = (marker) => {
-      //     this.setState((currentState) => ({
-      //       markers: currentState.markers.concat(marker)
-      //     }))
-      //     console.log("initMarkers", this.state.markers)
-      //   }
-
-  // getPhoto = () => {
-  //   let VENUE-ID = ...
-  //     fetch(`https://api.foursquare.com/v2/venues/${VENUE_ID}/photos?group=venue&limit=1`)
-  //         .then(handleErrors)
-  //         .then(res => res.json())
-  //         .then(data => data.response.venues)
-  //   }
+    clickHandler = (event, location, query) => {
+      this.setState({ query: event.target.innerText })
+      this.updateFilteredLocations(query)
+      console.log("clicked", event.target.innerText)
+    }
 
 
   render() {
     return (
       <div className="App">
         <SideNav
-          markers={this.state.markers}
-          initMarkers={this.initMarkers}
           clickHandler={this.clickHandler}
-          locations={this.state.locations}
           filterLocations={this.filterLocations}
           filteredLocations={this.state.filteredLocations}
           query={this.state.query}
-          resetQuery={this.resetQuery}
         />
         <MapContainer
           filteredLocations={this.state.filteredLocations}

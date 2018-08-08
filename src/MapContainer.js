@@ -61,6 +61,9 @@ class MapContainer extends Component {
     this.setMarkers(map);
   };
 
+
+  // Create a marker per location, and put into markers array
+
   setMarkers = map => {
     const bounds = new window.google.maps.LatLngBounds();
     const infoWindow = new window.google.maps.InfoWindow({ content: "" });
@@ -101,7 +104,7 @@ class MapContainer extends Component {
         this.openInfoWindow(map, marker);
       })
 
-      return this.props.markers;
+      return this.state.markers;
     })
 
     map.fitBounds(bounds)
@@ -143,15 +146,6 @@ class MapContainer extends Component {
   //   }
   // }
 
-  clickHandler = event => {
-    this.setState(currentState => {
-      return {
-        markers: currentState.markers.filter(
-          marker => marker.title === event.target
-        )
-      }
-    })
-  }
 
   render() {
     return (
