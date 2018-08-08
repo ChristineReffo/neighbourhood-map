@@ -8,19 +8,21 @@ class SideNav extends Component {
 
     const { filteredLocations, query, filterLocations } = this.props
     return (
-      <div className="side-menu">
-        <Navbar fluid inverse>
+      <div className="side-menu" aria-role="menu" aria-label="Menu navigation" aria-labelledby="menuID">
+        <Navbar id="menuID" fluid inverse>
           <Navbar.Header>
             <Navbar.Brand>
               <h1>My maps</h1>
-
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
-          <Navbar.Collapse>
-            <Navbar.Form>
+          <Navbar.Collapse
+            aria="">
+            <Navbar.Form
+              aria-label="form">
              <FormGroup>
-               <FormControl type="text"
+               <FormControl
+                 type="text"
                  placeholder="Search"
                  value={query}
                  onChange={(event) => filterLocations(event.target.value)}
@@ -29,12 +31,21 @@ class SideNav extends Component {
            </Navbar.Form>
             <Nav>
               {filteredLocations.map((location) => (
-                <NavItem key={location.id} href="#" onClick={(event) => this.props.clickHandler(event)}>{location.name}</NavItem>
+                <NavItem
+                  key={location.id}
+                  aria-role="menuitem"
+                  aria-label={location.name}
+                  onClick={(event) => this.props.clickHandler(event)}>{location.name}
+                </NavItem>
               ))}
             </Nav>
             <Button
+              tabIndex="0"
+              aria-label="Show all markers"
               onClick={() => this.props.showAllButton()}>
-              <Glyphicon glyph="map-marker" /> Show all
+              <Glyphicon
+                aria-hidden="true"
+                glyph="map-marker" /> Show all
             </Button>
           </Navbar.Collapse>
 

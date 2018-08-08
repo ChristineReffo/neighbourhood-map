@@ -8,25 +8,7 @@ class MapContainer extends Component {
     filteredMarkers:[],
     map: null
   }
-
-  // error handling
- //  window.gm_authFailure = this.gm_authFailure;
- // gm_authFailure() {
- //   window.alert(bla bla bla.' )
- // }
- // or componendDidCatch event
-
-  // if (isScriptLoadSucceed && !this.props.isScriptLoaded) {this.initMap() }
-// componentDidUpdate({ isScriptLoadSucceed }) {
-//     if (isScriptLoadSucceed && !this.props.isScriptLoaded) {
-//       this.initMap()
-//       console.log("Shit!")
-//     } else {
-//       console.log("I'm here!");
-//       // handle error
-//     }
-//     // return null
-//   }
+  /* Separate the load in order to avoid the map reloading at every marker refresh */
   componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
       if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
         if (isScriptLoadSucceed) {
@@ -43,12 +25,12 @@ class MapContainer extends Component {
       }
     }
 
- resetMarkers = () => {
-   this.state.markers.forEach(marker => {
-     marker.setMap(null);
-   })
-   this.setState({ markers: [] })
- }
+  resetMarkers = () => {
+    this.state.markers.forEach(marker => {
+      marker.setMap(null);
+    })
+    this.setState({ markers: [] })
+  }
 
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById("map"), {
@@ -58,10 +40,10 @@ class MapContainer extends Component {
         lat: 50.316384,
         lng: -122.71735
       }
-    });
+    })
     this.setState({ map })
     this.setMarkers(map);
-  };
+  }
 
 
   // Create a marker per location, and put into markers array
@@ -95,6 +77,8 @@ class MapContainer extends Component {
 
       /* Extend the boundaries according to positions of all markers in locations array */
       bounds.extend(location.location)
+      // /* Add a tabindex to markers */
+      // marker.tabindex = 0
 
       /* Create an click event for each marker */
       marker.addListener("click", event => {
@@ -103,61 +87,45 @@ class MapContainer extends Component {
           marker.setAnimation(null);
         }, 800);
 
-        this.openInfoWindow(map, marker);
+      this.openInfoWindow(map, marker);
+        // this.addTabIndexToMarker(marker)
       })
 
       return this.state.markers;
     })
 
     map.fitBounds(bounds)
+
   }
 
   /* Info window set up */
 
   openInfoWindow = (map, marker) => {
     marker.infoWindow.open(map, marker);
-    marker.infoWindow.setContent('<div id="InfoWindowContent">'+
+    marker.infoWindow.setContent('<div id="InfoWindowContent" tabindex="0" aria-label="Restaurant name and address">'+
       '<h4 id="firstHeading" class="firstHeading">' + marker.title + '</h4>'+
       '<div id="bodyContent">'+
       '<p><b>'+ marker.addressName +'</b></p>' +
       '<p><b>'+ marker.addressCity +'</b></p>' +
       '<p><b>'+ marker.addressCountry +'</b></p>'+
-      '<p>Foursquare <a href= "' + marker.foursquareUrl + '" target="_blank">' + 'For more details, click here</a></p>'+
+      '<p>Foursquare <a aria-label="link to foursquare" aria-role="link" href= "' + marker.foursquareUrl + '" target="_blank">' + 'For more details, click here</a></p>'+
       '</div>'+
       '</div>' +
       '</div>'
-)}
-  // To add the marker to the map, call setMap();
-  // marker.setMap(map);
+  )}
 
-
-
-  //
-  // filterMarkers = (query) => {
-  //   let qryStr = this.props.query.trim().toLowerCase();
-  //   // If query is not empty
-  //   if (qryStr) {
-  //     this.setState(currentState => {
-  //       return {
-  //         filteredMarkers: currentState.markers.filter(marker =>
-  //           marker.title.toLowerCase().includes(qryStr)
-  //         )
-  //       }
-  //       this.state.filteredMarkers.map(marker => marker.setMap(null))
-  //     }, console.log("filterMarkers", this.state.filteredMarkers))
-  //   } else {
-  //   console.log("it hit me")
-  //   }
-  // }
-
+// addTabIndexToMarker = (marker) => {
+//   let markerIcon = document.getElementsByClassName("gmnoprint")
+//   markerIcon.setAttribute("tabindex", "0")
+//   markerIcon.setAttribute("aria-label", marker.title)
+//   markerIcon.setAttribute("aria-role", "marker pin on map")
+// }
 
   render() {
     return (
       <div className="map-container">
 
-        <div id="map" />
-        <div className="marker" role="navigation">{this.props.title}
-          </div>
+        <div id="map" role="application" aria-label="map of restaurant locations" tabindex="-1"/>
       </div>
     );
   }

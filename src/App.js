@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import "./App.css";
 import SideNav from "./SideNav.js";
 import MapContainer from "./MapContainer.js";
+import ErrorBoundary from "./ErrorBoundary.js"
 
 class App extends Component {
 
@@ -15,13 +16,6 @@ class App extends Component {
     componentDidMount = () => {
     this.getLocations()
     }
-
-  // Foursquare
-  //   Client ID
-  //   E02QQMUOSQGK2HHMDNVZG3FRPHLFHRBS1TUZMO4GLNYHMSXX
-  //   Client Secret
-  //   AZFTDUKYBJLKXZEJSL4IOMQES1OBNAC0LYVN1EGQ44W1EGFJ
-  //
 
     getLocations = () => {
           fetch(`https://api.foursquare.com/v2/venues/search?ll=50.31,-122.71&limit=5&intent=browse&radius=100000&query=restaurant&client_id=E02QQMUOSQGK2HHMDNVZG3FRPHLFHRBS1TUZMO4GLNYHMSXX&client_secret=AZFTDUKYBJLKXZEJSL4IOMQES1OBNAC0LYVN1EGQ44W1EGFJ&v=20180806`)
@@ -70,9 +64,10 @@ class App extends Component {
       this.setState(
         { filteredLocations: this.state.locations, query: "" },
         this.showLocationsArray
-      );
+      )
     }
 
+  /* Menu button - Reset the search query an the locations to initial state when clicked*/
     showAllButton = () => {
       this.initLocations()
     }
@@ -81,7 +76,7 @@ class App extends Component {
       console.log("filtered Locations", this.state.filteredLocations);
     }
 
-
+  /* Click handler on menu items set query to the clicked item which automatically filters the markers*/
     clickHandler = (event, location, query) => {
       this.setState({ query: event.target.innerText })
       this.updateFilteredLocations(query)
@@ -92,6 +87,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <ErrorBoundary>
         <SideNav
           showAllButton={this.showAllButton}
           clickHandler={this.clickHandler}
@@ -103,10 +99,10 @@ class App extends Component {
           query={this.props.query}
           filteredLocations={this.state.filteredLocations}
           // query={this.state.query}
-
         />
+      </ErrorBoundary>
       </div>
-    );
+    )
   }
 }
 

@@ -102,7 +102,7 @@ nav.navbar {
     margin-left: 0;
   }
 
-button.navbar-toggle.collapsed {
+button.navbar-toggle {
   top: 3vh;
 }
 }
