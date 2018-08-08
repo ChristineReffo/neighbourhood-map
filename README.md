@@ -51,15 +51,15 @@ Please substitute these with your own keys (mapContainer line 167, App.js line 2
 ## Dependencies
 
 This project is built with the following dependencies:
-ES6
-React
-React Dom
-React scripts
-React Foursquare
-React Async Script Loader
-React Bootstrap
-Bootstrap Create-react-app
-Lodash Debounce
+1)ES6
+2)React
+3)React Dom
+4)React scripts
+5)React Foursquare
+6)React Async Script Loader
+7)React Bootstrap
+8)Bootstrap Create-react-app
+9)Lodash Debounce
 
 ### Create React App
 
