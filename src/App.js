@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { debounce } from "lodash"
+// import { debounce } from "lodash"
 import "./App.css";
 import SideNav from "./SideNav.js";
 import MapContainer from "./MapContainer.js";
@@ -73,6 +73,10 @@ class App extends Component {
       );
     }
 
+    showAllButton = () => {
+      this.initLocations()
+    }
+
     showLocationsArray = () => {
       console.log("filtered Locations", this.state.filteredLocations);
     }
@@ -89,12 +93,14 @@ class App extends Component {
     return (
       <div className="App">
         <SideNav
+          showAllButton={this.showAllButton}
           clickHandler={this.clickHandler}
           filterLocations={this.filterLocations}
           filteredLocations={this.state.filteredLocations}
           query={this.state.query}
         />
         <MapContainer
+          query={this.props.query}
           filteredLocations={this.state.filteredLocations}
           // query={this.state.query}
 

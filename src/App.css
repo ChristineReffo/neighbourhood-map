@@ -26,17 +26,10 @@
 .App-intro {
   font-size: large;
 }
-/*
-.flexContainer {
-  display:flex;
-  flex-wrap: wrap;
-
-} */
 
 #map {
   margin: 0;
   width: 100%;
-  /*TODO how to make height dynamic  */
   height: 100vh;
   position:relative;
 
@@ -70,6 +63,11 @@ nav.navbar {
     border-radius: 0px;
 }
 
+.navbar-form .form-control {
+  width: 160px !important;
+
+}
+
 
 .map-container {
   margin-left: 250px;
@@ -91,12 +89,20 @@ nav.navbar {
   .navbar-collapse {
     border-top: 1px solid white !important;
   }
-  .side-menu .navbar-header {
+  .side-menu div.navbar-header {
       border-bottom: none;
+      height:10%;
+      width:100%;
+  }
+  .container-fluid {
+    widht: 100%;
   }
 
   .map-container {
     margin-left: 0;
   }
 
+button.navbar-toggle.collapsed {
+  top: 3vh;
+}
 }

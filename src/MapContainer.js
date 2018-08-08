@@ -5,6 +5,7 @@ import "./App.css";
 class MapContainer extends Component {
   state = {
     markers: [],
+    filteredMarkers:[],
     map: null
   }
 
@@ -52,6 +53,7 @@ class MapContainer extends Component {
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById("map"), {
       zoom: 7,
+      maxZoom: 19,
       center: {
         lat: 50.316384,
         lng: -122.71735
@@ -120,7 +122,7 @@ class MapContainer extends Component {
       '<p><b>'+ marker.addressName +'</b></p>' +
       '<p><b>'+ marker.addressCity +'</b></p>' +
       '<p><b>'+ marker.addressCountry +'</b></p>'+
-      '<p class="Attribution">Foursquare <a href= "' + marker.foursquareUrl + '" target="_blank">'+ 'For more details, click here</a></p>'+
+      '<p>Foursquare <a href= "' + marker.foursquareUrl + '" target="_blank">' + 'For more details, click here</a></p>'+
       '</div>'+
       '</div>' +
       '</div>'
@@ -128,10 +130,11 @@ class MapContainer extends Component {
   // To add the marker to the map, call setMap();
   // marker.setMap(map);
 
+
+
   //
   // filterMarkers = (query) => {
   //   let qryStr = this.props.query.trim().toLowerCase();
-  //
   //   // If query is not empty
   //   if (qryStr) {
   //     this.setState(currentState => {
@@ -140,9 +143,10 @@ class MapContainer extends Component {
   //           marker.title.toLowerCase().includes(qryStr)
   //         )
   //       }
+  //       this.state.filteredMarkers.map(marker => marker.setMap(null))
   //     }, console.log("filterMarkers", this.state.filteredMarkers))
   //   } else {
-  //     this.initMarker()
+  //   console.log("it hit me")
   //   }
   // }
 

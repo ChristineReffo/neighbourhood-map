@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Navbar, Nav, NavItem, FormGroup, FormControl} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, FormGroup, FormControl, Button, Glyphicon} from 'react-bootstrap';
 import './App.css';
 
 class SideNav extends Component {
@@ -12,7 +12,8 @@ class SideNav extends Component {
         <Navbar fluid inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#">My maps</a>
+              <h1>My maps</h1>
+
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -31,7 +32,12 @@ class SideNav extends Component {
                 <NavItem key={location.id} href="#" onClick={(event) => this.props.clickHandler(event)}>{location.name}</NavItem>
               ))}
             </Nav>
+            <Button
+              onClick={() => this.props.showAllButton()}>
+              <Glyphicon glyph="map-marker" /> Show all
+            </Button>
           </Navbar.Collapse>
+
         </Navbar>
       </div>
     )
