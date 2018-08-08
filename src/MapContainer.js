@@ -4,8 +4,8 @@ import "./App.css";
 
 class MapContainer extends Component {
   state = {
-    // markers: [],
-    // filteredMarkers: []
+    markers: [],
+    map: null
   }
 
   // error handling
@@ -15,14 +15,39 @@ class MapContainer extends Component {
  // }
  // or componendDidCatch event
 
-  componentWillReceiveProps({ isScriptLoadSucceed }) {
-    if (isScriptLoadSucceed) {
-      this.initMap()
-    } else {
-      // handle error
+  // if (isScriptLoadSucceed && !this.props.isScriptLoaded) {this.initMap() }
+// componentDidUpdate({ isScriptLoadSucceed }) {
+//     if (isScriptLoadSucceed && !this.props.isScriptLoaded) {
+//       this.initMap()
+//       console.log("Shit!")
+//     } else {
+//       console.log("I'm here!");
+//       // handle error
+//     }
+//     // return null
+//   }
+  componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+      if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
+        if (isScriptLoadSucceed) {
+          this.initMap()
+          console.log("Init Map")
+        }
+        else {
+           // this.props.onError()
+           console.log("I'm now initting the Map!");
+        }
+      } else {
+        console.log("Now I set the markers!");
+        this.setMarkers(this.state.map);
+      }
     }
-  }
 
+ resetMarkers = () => {
+   this.state.markers.forEach(marker => {
+     marker.setMap(null);
+   })
+   this.setState({ markers: [] })
+ }
 
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById("map"), {
@@ -32,6 +57,7 @@ class MapContainer extends Component {
         lng: -122.71735
       }
     });
+    this.setState({ map })
     this.setMarkers(map);
   };
 
@@ -40,9 +66,9 @@ class MapContainer extends Component {
     const infoWindow = new window.google.maps.InfoWindow({ content: "" });
 
     /* Empty array of markers before setting new ones to avoid multiplication */
-    // this.props.resetMarkers()
+    this.resetMarkers()
 
-    this.props.locations.map(location => {
+    this.props.filteredLocations.map(location => {
       let url = 'http://foursquare.com/v/'
       let marker = new window.google.maps.Marker({
         title: location.name,
@@ -58,7 +84,9 @@ class MapContainer extends Component {
         clickable: true
       })
       /* Add each marker to state */
-      this.props.initMarkers(marker)
+      this.setState((currentState) => ({
+        markers: currentState.markers.concat(marker)
+      }))
 
       /* Extend the boundaries according to positions of all markers in locations array */
       bounds.extend(location.location)
@@ -73,7 +101,7 @@ class MapContainer extends Component {
         this.openInfoWindow(map, marker);
       })
 
-      return this.state.markers;
+      return this.props.markers;
     })
 
     map.fitBounds(bounds)

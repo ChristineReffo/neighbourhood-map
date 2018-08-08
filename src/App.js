@@ -9,8 +9,6 @@ class App extends Component {
   state = {
     locations: [],
     filteredLocations: [],
-    markers: [],
-    filteredMarkers: [],
     query: ""
   }
 
@@ -31,8 +29,6 @@ class App extends Component {
              .then((data) => {
                 this.setState({ locations: data.response.venues })
                 this.initLocations()
-                console.log("API fetch locations", this.state.locations)
-                console.log("filtered Locations", this.state.filteredLocations)
              }).catch(function(error) {
                console.log(error)
                })
@@ -73,21 +69,21 @@ class App extends Component {
 
 /*----------------Markers---------------*/
 
-      resetMarkers = () => {
-        this.setState({ markers: [] })
-      }
+      // resetMarkers = () => {
+      //   this.setState({ markers: [] })
+      // }
 
-      initMarkers = (marker) => {
-        this.setState((currentState) => {
-          markers: currentState.markers.concat(marker)
-        })
-        console.log("initMarkers", this.state.markers)
-      }
-
+      // initMarkers = (marker) => {
+      //     this.setState((currentState) => ({
+      //       markers: currentState.markers.concat(marker)
+      //     }))
+      //     console.log("initMarkers", this.state.markers)
+      //   }
 
   // getPhoto = () => {
   //   let VENUE-ID = ...
   //     fetch(`https://api.foursquare.com/v2/venues/${VENUE_ID}/photos?group=venue&limit=1`)
+  //         .then(handleErrors)
   //         .then(res => res.json())
   //         .then(data => data.response.venues)
   //   }
@@ -107,12 +103,8 @@ class App extends Component {
           resetQuery={this.resetQuery}
         />
         <MapContainer
-          locations={this.state.locations}
           filteredLocations={this.state.filteredLocations}
-          markers={this.state.markers}
-          initMarkers={this.initMarkers}
-          resetMarkers={this.resetMarkers}
-          query={this.state.query}
+          // query={this.state.query}
 
         />
       </div>
