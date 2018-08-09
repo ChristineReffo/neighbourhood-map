@@ -130,7 +130,7 @@ class MapContainer extends Component {
     );
   }
 }
-// AI
+
 export default scriptLoader([
-  `https://maps.googleapis.com/maps/api/js?key=zaSyA0GnEdVYOGtRqALRsCSa3I_FrXL7nSR5U`
+  `https://maps.googleapis.com/maps/api/js?key=AIzaSyA0GnEdVYOGtRqALRsCSa3I_FrXL7nSR5U`
 ])(MapContainer);
