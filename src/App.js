@@ -5,6 +5,8 @@ import SideNav from "./SideNav.js";
 import MapContainer from "./MapContainer.js";
 import ErrorBoundary from "./ErrorBoundary.js"
 
+window.gm_authFailure = () => { alert("Oops, the map had an error while loading! Please refresh and try again");}
+
 class App extends Component {
 
   state = {

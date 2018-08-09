@@ -85,7 +85,7 @@ class MapContainer extends Component {
         marker.setAnimation(window.google.maps.Animation.BOUNCE);
         setTimeout(() => {
           marker.setAnimation(null);
-        }, 800);
+        }, 800)
 
       this.openInfoWindow(map, marker);
         // this.addTabIndexToMarker(marker)
@@ -130,7 +130,7 @@ class MapContainer extends Component {
     );
   }
 }
-
+// AI
 export default scriptLoader([
-  `https://maps.googleapis.com/maps/api/js?key=AIzaSyA0GnEdVYOGtRqALRsCSa3I_FrXL7nSR5U`
+  `https://maps.googleapis.com/maps/api/js?key=zaSyA0GnEdVYOGtRqALRsCSa3I_FrXL7nSR5U`
 ])(MapContainer);
